@@ -3,11 +3,11 @@ const cors = require("cors");
 
 const app = express();
 
+let db = [];
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-
-let db = [];
 
 app.get("/:postId", (req, res) => {
     const {postId} = req.params;
@@ -17,7 +17,7 @@ app.get("/:postId", (req, res) => {
     res.status(201).json({success: true, comments});
 });
 
-app.post("/:postId", (req, res) => {
+app.post("/:postId", async (req, res) => {
     const commentId = Date.now() + "-" + crypto.randomUUID();
     const {postId} = req.params;
     const {comment} = req.body;
@@ -28,9 +28,27 @@ app.post("/:postId", (req, res) => {
 
     const newCommentData = {id: commentId, postId, comment};
 
-    db = [...db, newCommentData];
+    const eventData = {
+        type: "CREATE_COMMENT",
+        data: newCommentData
+    };
+
+    await fetch("http://localhost:3002/events", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(eventData)
+    });
 
     res.status(201).json({success: true, newCommentData});
+});
+
+app.post("/events", async (req, res) => {
+    const eventData = req.body;
+    console.log("new event:", eventData);
+
+    res.status(201).json();
 });
 
 app.listen(3001, () => {

@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const AddComment = ({postId, updateComments}) => {
+const AddComment = ({postId, updatePosts}) => {
     const [comment, setComment] = useState("");
 
     const insertCommentHandler = async event => {
@@ -19,7 +19,7 @@ const AddComment = ({postId, updateComments}) => {
             alert("Error while inserting your Comment!");
         }
 
-        updateComments();
+        updatePosts();
         setComment("");
     }
 

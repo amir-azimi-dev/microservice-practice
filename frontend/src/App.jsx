@@ -10,7 +10,7 @@ const App = () => {
     }, []);
 
     const getPosts = async () => {
-        const response = await fetch("http://localhost:3000");
+        const response = await fetch("http://localhost:3003");
         if (!response.ok) {
             alert("Error while getting Posts");
         }
@@ -22,7 +22,7 @@ const App = () => {
     return (
         <div className="container mx-auto font-bold ">
             <AddPost getPosts={getPosts}/>
-            <PostsList posts={posts} />
+            <PostsList posts={posts} getPosts={getPosts}/>
         </div>
     )
 }
