@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: false}));
 app.post("/events", async (req, res) => {
     const eventData = req.body;
 
-    await fetch("http://localhost:3000/events", {
+    await fetch("http://posts-container:3000/events", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -18,7 +18,7 @@ app.post("/events", async (req, res) => {
         body: JSON.stringify(eventData)
     });
 
-    await fetch("http://localhost:3001/events", {
+    await fetch("http://comments-container:3001/events", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -26,7 +26,7 @@ app.post("/events", async (req, res) => {
         body: JSON.stringify(eventData)
     });
 
-    await fetch("http://localhost:3003/events", {
+    await fetch("http://query-container:3003/events", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -37,7 +37,7 @@ app.post("/events", async (req, res) => {
     res.status(201).json({success: true});
 });
 
-app.listen(3002, () => {
+app.listen(3002, "0.0.0.0", () => {
     console.log("Event bus is running on port 3002 ...");
     console.log("\n--------------------------------")
 });

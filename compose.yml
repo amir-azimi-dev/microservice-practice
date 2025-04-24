@@ -1,0 +1,70 @@
+volumes:
+  posts:
+  comments:
+  event-bus:
+  query:
+  client:
+
+networks:
+  microservice:
+
+services:
+  posts:
+    build:
+      context: ./posts
+    container_name: posts-container
+    networks:
+      - microservice
+    ports:
+      - "3000:3000"
+    volumes:
+      - posts:/posts
+    restart: always
+
+  comments:
+    build:
+      context: ./comments
+    container_name: comments-container
+    networks:
+      - microservice
+    ports:
+      - "3001:3001"
+    volumes:
+      - comments:/comments
+    restart: always
+
+  event-bus:
+    build:
+      context: ./event-bus
+    container_name: event-bus-container
+    networks:
+      - microservice
+    ports:
+      - "3002:3002"
+    volumes:
+      - event-bus:/event-bus
+    restart: always
+
+  query:
+    build:
+      context: ./query
+    container_name: query-container
+    networks:
+      - microservice
+    ports:
+      - "3003:3003"
+    volumes:
+      - query:/query
+    restart: always
+
+  client:
+    build:
+      context: ./frontend
+    container_name: client
+    networks:
+      - microservice
+    ports:
+      - "5173:5173"
+    volumes:
+      - client:/client
+    restart: always

@@ -33,7 +33,7 @@ app.post("/:postId", async (req, res) => {
         data: newCommentData
     };
 
-    await fetch("http://localhost:3002/events", {
+    await fetch("http://event-bus-container:3002/events", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -51,7 +51,7 @@ app.post("/events", async (req, res) => {
     res.status(201).json();
 });
 
-app.listen(3001, () => {
-    console.log("service is runinng on port 3001 ...");
+app.listen(3001, "0.0.0.0", () => {
+    console.log("service is running on port 3001 ...");
     console.log("\n----------------------------------");
 });
